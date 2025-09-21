@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, [Recipient's Name]! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Global Variables & Reset */
+        :root {
+            --primary-color: #A0B3D6; /* Soft blue-grey */
+            --secondary-color: #E2B0FF; /* Soft lavender */
+            --accent-color: #FF7B7B; /* Muted coral for highlights */
+            --dark-bg: #1A1A2E; /* Deep dark background */
+            --darker-bg: #0F0F1A; /* Even darker for sections */
+            --text-light: #F0F0F0;
+            --text-dark: #333;
+            --border-radius-lg: 15px;
+            --border-radius-sm: 8px;
+            --font-main: 'Montserrat', sans-serif;
+            --font-heading: 'Playfair Display', serif;
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-dark: 0 8px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--text-light);
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--darker-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1.2s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-padding {
+            padding: 6rem 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        h3 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2.2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--border-radius-lg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--darker-bg);
+            box-shadow: var(--shadow-light);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Hero Section */
+        #hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://source.unsplash.com/random/1920x1080/?nightsky,stars,abstract') no-repeat center center/cover; /* Replace with a personal image if desired */
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        #hero .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        #hero h1 {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 1.5s ease-out 1s forwards;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        #hero h1 span {
+            display: block;
+            font-size: 0.6em;
+            letter-spacing: 5px;
+            margin-top: 0.5rem;
+        }
+
+        #hero p {
+            font-size: 1.3rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlideUp 1.5s ease-out 1.5s forwards;
+            max-width: 600px;
+        }
+
+        #hero .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-decoration: none;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards, bounce 2s infinite;
+        }
+
+        .scroll-down::after {
+            content: '↓';
+            display: block;
+            margin-top: 5px;
+            font-size: 1.5rem;
+        }
+
+        /* Section Styles */
+        section {
+            background-color: var(--darker-bg);
+            margin-bottom: 1rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-dark);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        section.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-alt {
+            background-color: var(--dark-bg);
+        }
+
+        .grid-2-cols {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2-cols {
+                grid-template-columns: 1fr 1fr;
+            }
+            .grid-2-cols.reverse {
+                grid-template-areas: "image content";
+            }
+            .grid-2-cols.reverse .content-col {
+                grid-area: content;
+            }
+            .grid-2-cols.reverse .image-col {
+                grid-area: image;
+            }
+        }
+
+
+        .content-col {
+            padding: 1rem;
+        }
+
+        .image-col img {
+            max-width: 100%;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease;
+        }
+
+        .image-col img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Special Moment Section */
+        #moment .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks to pass through */
+            overflow: hidden;
+        }
+
+        #moment {
+            position: relative; /* For confetti positioning */
+            overflow: hidden; /* To contain confetti */
+        }
+
+        #moment h2 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Interactive Card */
+        .interactive-card {
+            background-color: var(--dark-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 2.5rem;
+            max-width: 500px;
+            margin: 3rem auto 0 auto;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-dark);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        .card-front, .card-back {
+            backface-visibility: hidden;
+            transition: transform 0.6s;
+        }
+
+        .card-front {
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem;
+            transform: rotateY(180deg);
+            background-color: var(--dark-bg); /* Ensure consistent background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .interactive-card.flipped .card-front {
+            transform: rotateY(-180deg);
+            opacity: 0; /* Hide front during flip */
+        }
+
+        .interactive-card.flipped .card-back {
+            transform: rotateY(0deg);
+            opacity: 1; /* Show back during flip */
+        }
+
+        .card-message h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .card-message p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .heart-icon {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-top: 1.5rem;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Gallery Section */
+        #gallery {
+            background-color: var(--darker-bg);
+            border-radius: var(--border-radius-lg);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-light);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            color: var(--text-light);
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-item-overlay h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        .gallery-item-overlay p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            line-height: 1.4;
+        }
+
+        /* Call to Action / Footer */
+        #cta {
+            background-color: var(--dark-bg);
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+            margin-bottom: 0; /* No margin for footer-like section */
+        }
+
+        #cta h2 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #cta p {
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--darker-bg);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Confetti Particle Styles (JS will create these) */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color); /* Default, overridden by JS */
+            border-radius: 50%; /* Can be square or circle */
+            opacity: 0;
+            animation: fall 3s forwards;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .container {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 3.5rem;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+            h3 {
+                font-size: 1.7rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .section-padding {
+                padding: 4rem 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            .interactive-card {
+                padding: 1.5rem;
+            }
+            .card-message h3 {
+                font-size: 1.8rem;
+            }
+            .card-message p {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 0.7rem 1.8rem;
+                font-size: 1rem;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.2rem;
+                letter-spacing: 2px;
+            }
+            #hero h1 span {
+                font-size: 0.5em;
+                letter-spacing: 3px;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .section-padding {
+                padding: 3rem 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container">
+            <h1>Happy Birthday, <span class="gradient-text">[Recipient's Name]</span>!<span>A Day Just For You</span></h1>
+            <p>Welcome to a special place created to celebrate you and all the joy you bring into the world.</p>
+            <a href="#about" class="scroll-down">Explore More</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-padding section-alt">
+        <div class="container animate">
+            <h2 class="text-center">Celebrating You</h2>
+            <div class="grid-2-cols">
+                <div class="content-col">
+                    <p>On this beautiful day, we celebrate another year of your incredible journey. Your warmth, kindness, and spirit shine so brightly, touching the lives of everyone around you.</p>
+                    <p>From your infectious laugh to your unwavering support, every moment with you is a gift. This little corner of the internet is a small token of the immense appreciation and love we have for you.</p>
+                    <p>May your day be filled with all the happiness, surprises, and love you deserve. You truly are one of a kind!</p>
+                </div>
+                <div class="image-col">
+                    <img src="https://source.unsplash.com/random/600x400/?celebration,sparkle" alt="Celebration image"> <!-- Replace with personal image -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shared Memories/Moments Section -->
+    <section id="memories" class="section-padding">
+        <div class="container animate">
+            <h2 class="text-center gradient-text">Our Favorite Moments</h2>
+            <div class="grid-2-cols reverse">
+                <div class="image-col">
+                    <img src="https://source.unsplash.com/random/600x400/?friendship,laughter" alt="Friends laughing"> <!-- Replace with personal image -->
+                </div>
+                <div class="content-col">
+                    <p>Thinking back on all the amazing times we've shared, it's hard to pick just a few. From spontaneous adventures to quiet evenings, each memory is a treasure.</p>
+                    <p>Remember that time when [Insert Specific Memory 1, e.g., "we tried to bake that ridiculously complicated cake"]? Or the unforgettable [Insert Specific Memory 2, e.g., "trip to the mountains where we got lost but found the most amazing view"]?</p>
+                    <p>These moments aren't just events; they're threads woven into the beautiful tapestry of our connection, making it stronger and more vibrant with each passing year.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Interactive Moment Section -->
+    <section id="moment" class="section-padding section-alt text-center">
+        <div class="confetti-container"></div> <!-- For confetti -->
+        <div class="container animate">
+            <h2>A Little Something Special...</h2>
+            <p>On your special day, here's a heartfelt message just for you. Click the card to reveal it!</p>
+
+            <div class="interactive-card" onclick="this.classList.toggle('flipped'); triggerConfetti()">
+                <div class="card-front">
+                    <p>🌟 Open Your Birthday Wish 🌟</p>
+                    <span class="heart-icon">❤️</span>
+                </div>
+                <div class="card-back">
+                    <div class="card-message">
+                        <h3>Dearest [Recipient's Name],</h3>
+                        <p>Wishing you a day as extraordinary as you are! May this year bring you endless joy, exciting new adventures, and all the success you dream of. You inspire me every single day.</p>
+                        <p>With all my love,<br> [Your Name]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section-padding">
+        <div class="container animate">
+            <h2 class="text-center">Photo Memories</h2>
+            <p class="text-center">A small collection of cherished moments.</p>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://source.unsplash.com/random/600x400/?portrait,smile" alt="Gallery Photo 1"> <!-- Replace with personal image -->
+                    <div class="gallery-item-overlay">
+                        <h4>That unforgettable smile</h4>
+                        <p>A moment capturing pure happiness.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://source.unsplash.com/random/600x400/?travel,view" alt="Gallery Photo 2"> <!-- Replace with personal image -->
+                    <div class="gallery-item-overlay">
+                        <h4>Our great adventure</h4>
+                        <p>From the time we explored the world.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://source.unsplash.com/random/600x400/?friends,group" alt="Gallery Photo 3"> <!-- Replace with personal image -->
+                    <div class="gallery-item-overlay">
+                        <h4>Laughter with friends</h4>
+                        <p>Surrounded by good company.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://source.unsplash.com/random/600x400/?nature,happy" alt="Gallery Photo 4"> <!-- Replace with personal image -->
+                    <div class="gallery-item-overlay">
+                        <h4>Simply beautiful</h4>
+                        <p>A serene moment, just like you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action / Final Message -->
+    <section id="cta" class="section-padding">
+        <div class="container animate">
+            <h2>Wishing You The Happiest Year Ahead!</h2>
+            <p>May your special day be the start of a year filled with continued growth, exciting opportunities, and boundless joy. Here's to many more wonderful memories together!</p>
+            <a href="#hero" class="btn btn-primary">Send More Love!</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 A Special Birthday Wish. All Rights Reserved.</p>
+            <p>Made with ❤️ by [Your Name]</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. Loading Screen Animation ---
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 1000); // Wait for fade-out to complete
+            }
+        });
+
+        // --- 2. Scroll Animation (Intersection Observer) ---
+        const sections = document.querySelectorAll('section:not(#hero)'); // Exclude hero section
+        const options = {
+            root: null, // viewport
+            threshold: 0.2, // 20% of the section must be visible
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- 3. Smooth Scrolling for Nav/CTA ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // --- 4. Confetti Cannon Effect (on card click) ---
+        const confettiColors = [
+            'var(--primary-color)', 'var(--secondary-color)', 'var(--accent-color)',
+            '#FFC0CB', '#FFD700', '#ADD8E6', '#90EE90' // Additional celebratory colors
+        ];
+
+        function triggerConfetti() {
+            const confettiContainer = document.querySelector('#moment .confetti-container');
+            if (!confettiContainer) return;
+
+            const numberOfConfetti = 50;
+            for (let i = 0; i < numberOfConfetti; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+
+                // Random position within the container width
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = Math.random() * -20 + 'vh'; // Start above viewport
+
+                // Random size
+                const size = Math.random() * 8 + 5; // 5px to 13px
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+
+                // Random color
+                confetti.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+
+                // Random shape (circle or square)
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '0'; // Square
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                } else {
+                    confetti.style.borderRadius = '50%'; // Circle
+                }
+
+                // Random animation delay and duration
+                confetti.style.animationDelay = `${Math.random() * 0.8}s`;
+                confetti.style.animationDuration = `${Math.random() * 2 + 3}s`; // 3 to 5 seconds
+
+                confettiContainer.appendChild(confetti);
+
+                // Remove confetti after animation
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                });
+            }
+        }
+
+        // Pre-fill placeholder content
+        document.addEventListener('DOMContentLoaded', () => {
+            const recipientName = "[Recipient's Name]"; // **CUSTOMIZE THIS**
+            const yourName = "[Your Name]"; // **CUSTOMIZE THIS**
+            const specificMemory1 = "that time we spontaneously decided to learn how to juggle and only broke one lamp"; // **CUSTOMIZE THIS**
+            const specificMemory2 = "the unforgettable trip to the beach where we built that epic sandcastle and then watched it get washed away by the tide"; // **CUSTOMIZE THIS**
+
+            document.title = `Happy Birthday, ${recipientName}! 🎉`;
+            document.querySelector('#hero h1 .gradient-text').textContent = recipientName;
+            document.querySelector('#moment .card-message h3').textContent = `Dearest ${recipientName},`;
+            document.querySelector('#moment .card-message p:last-of-type').innerHTML = `With all my love,<br> ${yourName}`;
+            document.querySelector('#memories .content-col p:nth-of-type(2)').innerHTML = `Remember that time when ${specificMemory1}? Or the unforgettable ${specificMemory2}?`;
+            document.querySelector('footer p:last-of-type').innerHTML = `Made with ❤️ by ${yourName}`;
+
+            // Optional: Update image sources if you have specific ones in mind
+            // document.querySelector('#about .image-col img').src = 'path/to/your/image1.jpg';
+            // document.querySelector('#memories .image-col img').src = 'path/to/your/image2.jpg';
+            // document.querySelector('.gallery-grid .gallery-item:nth-child(1) img').src = 'path/to/your/gallery1.jpg';
+            // etc.
+        });
+
+    </script>
+</body>
+</html>
